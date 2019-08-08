@@ -7,10 +7,6 @@ import orderList from "../../component/order/orderList";
 class customRouter extends Component {
   render() {
     return (
-      //   <Router>
-      //     <Route exact path="/" component={Home} />
-      //     <Route exact path="/order" component={orderList} />
-      //   </Router>
       <Router>
         <div className={"main-container"}>
           <Switch>

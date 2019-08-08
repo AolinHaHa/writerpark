@@ -11,7 +11,9 @@ router.get("/orders", (req, res) => {
   Order.find((err, orders) => {
     if (err) {
       res.status(500).send(err);
+      console.log("GET orders - err - ", err);
     }
+    console.log("GET orders - res - ", res.data);
     res.status(200).json(orders);
   });
 });
