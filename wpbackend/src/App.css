@@ -1,13 +1,26 @@
 .App {
   text-align: center;
 }
-
+.main-container {
+  position: relative;
+  height: 100%;
+}
 .body {
 }
 .header {
+  width: 100%;
+  background: lightblue;
 }
 .header ul li {
   list-style: none;
 }
 .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: lightcyan;
+}
+.noneDisplay {
+  display: none;
 }

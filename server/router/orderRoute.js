@@ -3,19 +3,24 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../schema/orderSchema");
 
+var query = {};
+
 router.get("/", (req, res) => {
   res.json({ message: "order api!" });
 });
 
 router.get("/orders", (req, res) => {
-  Order.find((err, orders) => {
-    if (err) {
-      res.status(500).send(err);
+  console.log(req.query);
+  let options = JSON.parse(req.query.options);
+  Order.paginate(query, options)
+    .then(orders => {
+      console.log("GET orders - res - ", res.data);
+      res.status(200).json(orders);
+    })
+    .catch(err => {
       console.log("GET orders - err - ", err);
-    }
-    console.log("GET orders - res - ", res.data);
-    res.status(200).json(orders);
-  });
+      res.status(500).send(err);
+    });
 });
 
 router.post("/neworder", (req, res) => {
@@ -38,6 +43,7 @@ router.post("/neworder", (req, res) => {
   order.amountcharged = req.body.amountcharged;
   order.appliedcoupon = req.body.appliedcoupon;
   order.assignedspecialty = req.body.assignedspecialty;
+  order.initialtime = Date();
   order.save(err => {
     if (err) {
       res.status.apply(501).send(err);

@@ -8,7 +8,12 @@ class OrderList extends Component {
     console.log("orderListComponent - props - ", this.props);
     this.props.getOrderList();
   }
+
+  pageHandler(e) {
+    this.props.getOrderList({ page: e });
+  }
   render() {
+    console.log("orderListComponent - props - ", this.props);
     if (this.props.isFetching) {
       return (
         <div>
@@ -18,8 +23,10 @@ class OrderList extends Component {
     }
 
     const orderList =
-      this.props.orders.length > 0 &&
-      this.props.orders.map((order, idx) => {
+      this.props.orders &&
+      this.props.orders.docs &&
+      this.props.orders.docs.length > 0 &&
+      this.props.orders.docs.map((order, idx) => {
         return (
           <tr>
             <td>{order._id}</td>
@@ -33,8 +40,8 @@ class OrderList extends Component {
             <td>{order.page}</td>
             {/* <td>{order.ppt}</td> */}
             <td>{order.rate}</td>
-            <td>{order.supportingfile}</td>
-            <td>{order.productionfile}</td>
+            {/* <td>{order.supportingfile}</td>
+            <td>{order.productionfile}</td> */}
             <td>{order.clientid}</td>
             <td>{order.amountcharged}</td>
             <td>{order.appliedcoupon}</td>
@@ -47,7 +54,7 @@ class OrderList extends Component {
       <div>
         <h2>WPorderListPage</h2>
         <table>
-          <th>
+          <thead>
             <tr>
               <td>ID</td>
               <td>WPREFERENCE</td>
@@ -57,19 +64,32 @@ class OrderList extends Component {
               <td>SUBJECT</td>
               <td>PAGE</td>
               <td>RATE</td>
-              <td>ID</td>
-              <td>WPREFERENCE</td>
-              <td>CORP REFERENCE</td>
-              <td>STATUS</td>
-              <td>ID</td>
-              <td>WPREFERENCE</td>
-              <td>CORP REFERENCE</td>
-              <td>STATUS</td>
+              <td>CLIENT_ID</td>
+              <td>CHARGED_AMOUNT</td>
+              <td>APPLIED_COUPON</td>
+              <td>ASSIGNED_SPECIALTY</td>
             </tr>
-          </th>
-          {orderList}
+          </thead>
+
+          <tbody>{orderList}</tbody>
         </table>
-        {/* <h3>{this.props.order && this.props.order.orders}</h3> */}
+        <div className="orderListControlPanel">
+          {this.props.orders.hasNextPage && (
+            <button
+              onClick={() => this.pageHandler(this.props.orders.nextPage)}
+            >
+              +
+            </button>
+          )}
+          <h3>{this.props.orders.page}</h3>
+          {this.props.orders.hasPrevPage && (
+            <button
+              onClick={() => this.pageHandler(this.props.orders.prevPage)}
+            >
+              -
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -77,8 +97,8 @@ class OrderList extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getOrderList: () => {
-      dispatch(actions.getOrderList());
+    getOrderList: e => {
+      dispatch(actions.getOrderList(e));
     }
   };
 };

@@ -1,5 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema(
@@ -20,9 +21,12 @@ const OrderSchema = new Schema(
     email: String,
     amountcharged: Number,
     appliedcoupon: String,
-    assignedspecialty: String
+    assignedspecialty: String,
+    initialtime: Date
   },
   { collection: "order" }
 );
+
+OrderSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("order", OrderSchema);

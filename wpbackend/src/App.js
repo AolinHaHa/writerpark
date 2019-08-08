@@ -7,6 +7,7 @@ import store from "./store";
 import "./App.css";
 import Home from "./component/home";
 import OrderList from "./component/order/orderList";
+import OrderDetail from "./component/order/orderDetail";
 import Header from "./common/header";
 import Footer from "./common/footer";
 // import customRouter from "./common/router";
@@ -22,10 +23,14 @@ class App extends Component {
         <Router>
           <div className="main-container">
             <Header />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/order" component={OrderList} />
-            </Switch>
+            <div className="body">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/order" component={OrderList} />
+                <Route exact path="/order/:id" component={OrderDetail} />
+              </Switch>
+            </div>
+
             <Footer />
           </div>
         </Router>
