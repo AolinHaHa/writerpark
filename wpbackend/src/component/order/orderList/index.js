@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import * as actions from "../../../action/orderAction";
 import { connect } from "react-redux";
+import history from "../../../history";
+import { Redirect } from "react-router-dom";
 import ReactTable from "react-table";
 
 class OrderList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { currentQuery: "" };
+  }
   componentDidMount() {
     console.log("orderListComponent - props - ", this.props);
     this.props.getOrderList();
@@ -12,6 +18,22 @@ class OrderList extends Component {
   pageHandler(e) {
     this.props.getOrderList({ page: e });
   }
+
+  goto = orderId => {
+    this.props.history.push({
+      pathname: "/order/" + orderId
+    });
+    // return <Redirect to={"/order/" + orderId} />;
+  };
+
+  search = searchQuery => {
+    this.setState({ currentQuery: searchQuery });
+  };
+
+  searchQuery() {
+    this.props.getOrderList({ query: this.state.currentQuery });
+  }
+
   render() {
     console.log("orderListComponent - props - ", this.props);
     if (this.props.isFetching) {
@@ -29,7 +51,7 @@ class OrderList extends Component {
       this.props.orders.docs.map((order, idx) => {
         return (
           <tr>
-            <td>{order._id}</td>
+            <td onClick={() => this.goto(order._id)}>{order._id}</td>
             <td>{order.wpnumber}</td>
             <td>{order.referencenumber}</td>
             <td>{order.status}</td>
@@ -53,6 +75,11 @@ class OrderList extends Component {
     return (
       <div>
         <h2>WPorderListPage</h2>
+        <input
+          placeholder="search"
+          onChange={e => this.search(e.target.value)}
+        />
+        <button onClick={() => this.searchQuery()}>Search</button>
         <table>
           <thead>
             <tr>

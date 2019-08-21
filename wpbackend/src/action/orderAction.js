@@ -32,15 +32,18 @@ const requestSuccess = (res, source) => {
 
 export const getOrderList = e => {
   console.log("getOrderList - e -", e);
+  let query = (e && e.query) || {};
   let options = { limit: 5 }; //20 per page
   options.page = (e && e.page) || 1;
-  console.log("getOrderList - sending -", options);
+
+  console.log("getOrderList - sending -", options, query);
   return dispatch => {
     dispatch(requestStart(ORDER_LIST_FETCH_START));
     axios
       .get(urlHeader + "api/orders", {
         params: {
-          options
+          options,
+          query
         }
       })
       .then(res => {
@@ -73,4 +76,9 @@ export const getOrderDetail = e => {
         dispatch(requestFail(err, ORDER_DETAIL_FETCH_FAIL));
       });
   };
+};
+
+//TODO: UPDATE ORDER
+export const updateOrder = order => {
+  return;
 };

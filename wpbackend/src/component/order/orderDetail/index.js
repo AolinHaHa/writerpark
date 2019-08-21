@@ -4,23 +4,30 @@ import { connect } from "react-redux";
 
 class OrderDetail extends Component {
   componentDidMount() {
-    console.log("OrderDetailComponent - props - ", this.props);
+    console.log(
+      "OrderDetailComponent - didMount - props - ",
+      this.props,
+      Object.keys(this.props.viewOrder)
+    );
+
     this.props.getOrderDetail(this.props.match.params.id);
   }
+  componentDidCatch(error, info) {}
 
   render() {
     const DetailContent = (
-      <div>
-        {Object.keys(this.props.viewOrder).map((ele, idx) => {
-          return (
-            <div className={ele === "__v" && "noneDisplay"}>
-              {/* <div {ele === "__v" && className="noneDisplay"}> */}
-              <p>{ele}</p>
-              <p>{this.props.viewOrder[ele]}</p>
-            </div>
-          );
-        })}
-      </div>
+      <tbody>
+        {Object.keys(this.props.viewOrder)
+          .filter(ele => ele !== "__v")
+          .map((ele, idx) => {
+            return (
+              <tr>
+                <td>{ele && ele}</td>
+                <td>{this.props.viewOrder && this.props.viewOrder[ele]}</td>
+              </tr>
+            );
+          })}
+      </tbody>
     );
     console.log("OrderDetailComponent - props - ", this.props);
     if (this.props.isFetching) {
@@ -30,10 +37,19 @@ class OrderDetail extends Component {
         </div>
       );
     }
+
     return (
       <div>
         <h2>OrderDetail</h2>
-        {DetailContent}
+        <table>
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Detail</td>
+            </tr>
+          </thead>
+          {DetailContent}
+        </table>
       </div>
     );
   }

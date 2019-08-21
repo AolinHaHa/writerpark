@@ -13,15 +13,24 @@ const originUrl = "http://localhost:3000/";
 mongoose.connect("mongodb://localhost:27017/WriterParkDB");
 
 //base
+app.use(cors());
+
+// app.use(cors({ origin: originUrl, credentials: true }));
+
 app.use(
   bodyParser.urlencoded({
     extended: true
   })
 );
 app.use(bodyParser.json());
+//user management
 app.use("/api", userRoute);
+//order management
 app.use("/api", orderRoute);
-app.use(cors({ origin: originUrl, credentials: true }));
+
+// // app.use(cors({ origin: originUrl, credentials: false }));
+// headers.append("Access-Control-Allow-Origin", originUrl);
+// headers.append("Access-Control-Allow-Credentials", "true");
 
 app.listen(port, () => {
   console.log("listening on ", port);

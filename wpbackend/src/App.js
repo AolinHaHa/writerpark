@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
+import history from "./history";
 import { Provider } from "react-redux";
 import store from "./store";
-// import PrivateRoute from "react-private-route";
-
 import "./App.css";
 import Home from "./component/home";
 import OrderList from "./component/order/orderList";
@@ -20,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
+        <Router history={history}>
           <div className="main-container">
             <Header />
             <div className="body">

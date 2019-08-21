@@ -3,14 +3,14 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../schema/orderSchema");
 
-var query = {};
-
 router.get("/", (req, res) => {
   res.json({ message: "order api!" });
 });
 
 router.get("/orders", (req, res) => {
-  console.log(req.query);
+  console.log("GET orders - options -", req.query.options);
+  console.log("GET orders - query -", req.query.query);
+  var query = { _id: "5d4b6e881c6eb63a9c361ed8" };
   let options = JSON.parse(req.query.options);
   Order.paginate(query, options)
     .then(orders => {
