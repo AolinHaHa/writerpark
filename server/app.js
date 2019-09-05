@@ -10,7 +10,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const originUrl = "http://localhost:3000/";
 
-mongoose.connect("mongodb://localhost:27017/WriterParkDB");
+mongoose.connect("mongodb://182.61.169.181:27017/WriterParkDB");
+// mongoose.connect("mongodb://localhost:27017/WriterParkDB");
 
 //base
 app.use(cors());

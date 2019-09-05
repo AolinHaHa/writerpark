@@ -12,7 +12,9 @@ class OrderList extends Component {
   }
   componentDidMount() {
     console.log("orderListComponent - props - ", this.props);
-    this.props.getOrderList();
+    console.log("orderListComponent - states - ", this.state);
+    // this.props.getOrderList();
+    this.props.getOrderList({ query: this.state.currentQuery });
   }
 
   pageHandler(e) {
@@ -26,13 +28,15 @@ class OrderList extends Component {
     // return <Redirect to={"/order/" + orderId} />;
   };
 
-  search = searchQuery => {
-    this.setState({ currentQuery: searchQuery });
+  searchOnChangeHandler = e => {
+    console.log(e.target.value);
+    e.preventDefault();
+    this.setState({ currentQuery: e.target.value });
   };
 
-  searchQuery() {
+  search = () => {
     this.props.getOrderList({ query: this.state.currentQuery });
-  }
+  };
 
   render() {
     console.log("orderListComponent - props - ", this.props);
@@ -77,9 +81,9 @@ class OrderList extends Component {
         <h2>WPorderListPage</h2>
         <input
           placeholder="search"
-          onChange={e => this.search(e.target.value)}
+          onChange={e => this.searchOnChangeHandler(e)}
         />
-        <button onClick={() => this.searchQuery()}>Search</button>
+        <button onClick={() => this.search()}>Search</button>
         <table>
           <thead>
             <tr>

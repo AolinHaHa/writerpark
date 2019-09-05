@@ -10,7 +10,17 @@ router.get("/", (req, res) => {
 router.get("/orders", (req, res) => {
   console.log("GET orders - options -", req.query.options);
   console.log("GET orders - query -", req.query.query);
-  var query = { _id: "5d4b6e881c6eb63a9c361ed8" };
+  let query;
+  if (req.query.query !== "{}") {
+    query = {
+      $or: [
+        { wpnumber: new RegExp(req.query.query) },
+        { referencenumber: new RegExp(req.query.query) }
+      ]
+    };
+  } else {
+    query = {};
+  }
   let options = JSON.parse(req.query.options);
   Order.paginate(query, options)
     .then(orders => {

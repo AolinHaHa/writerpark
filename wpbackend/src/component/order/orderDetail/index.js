@@ -50,6 +50,7 @@ class OrderDetail extends Component {
           </thead>
           {DetailContent}
         </table>
+        <div></div>
       </div>
     );
   }
