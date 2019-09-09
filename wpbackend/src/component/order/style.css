@@ -1,0 +1,78 @@
+.OrderListContainer {
+}
+.OrderListSearchBar {
+  width: 44%;
+  display: flex;
+  margin: auto;
+  margin-bottom: 40px;
+}
+.OrderListSearchBar > input {
+  width: 80%;
+  margin-right: 10px;
+  border: none;
+  border-bottom: 1px solid lightgray;
+}
+.OrderListSearchBar > button {
+  border: none;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #b1b1b1;
+}
+.OrderListSearchBar > button:hover {
+  color: #b1b1b1;
+  background: #ffffff;
+}
+.OrderListTableWrapper {
+  overflow-x: auto;
+}
+.OrderListTable {
+  width: 100%;
+}
+.OrderListTable > thead > tr {
+  height: 60px;
+}
+.OrderListTable > tbody > tr {
+  height: 50px;
+}
+.OrderListTable > tbody > tr:hover {
+  background: rgb(233, 233, 233);
+  transition: all 0.5s;
+}
+.OrderListTable td {
+  text-align: center;
+}
+
+input:focus {
+  outline: none;
+}
+.orderListControlPanel {
+  display: flex;
+  flex-direction: row;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -35%;
+  right: 1%;
+}
+.orderListControlPanel button {
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  background: rgb(177, 177, 177);
+  height: 20px;
+  width: 50px;
+  font-size: 12px;
+  text-align: center;
+}
+.orderListControlPanel button:hover {
+  background: #ffffff;
+  color: rgb(177, 177, 177);
+  border: 1px solid rgb(177, 177, 177);
+}
+.orderListControlPanel p {
+  padding: 0px 20px;
+  font-size: large;
+  font-weight: 400;
+}

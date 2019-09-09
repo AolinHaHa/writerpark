@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import * as actions from "../../../action/orderAction";
 import { connect } from "react-redux";
-import history from "../../../history";
-import { Redirect } from "react-router-dom";
-import ReactTable from "react-table";
+import { withSnackbar } from "notistack";
+import TimeHelper from "../../../common/helper/timeHelper";
+import "../style.css";
+// import history from "../../../history";
+// import { Redirect } from "react-router-dom";
+// import ReactTable from "react-table";
 
 class OrderList extends Component {
   constructor(props) {
     super(props);
     this.state = { currentQuery: "" };
+    this.handleButtonPress = this.handleButtonPress.bind(this);
+    this.handleButtonRelease = this.handleButtonRelease.bind(this);
   }
   componentDidMount() {
     console.log("orderListComponent - props - ", this.props);
     console.log("orderListComponent - states - ", this.state);
-    // this.props.getOrderList();
     this.props.getOrderList({ query: this.state.currentQuery });
   }
 
@@ -21,21 +25,53 @@ class OrderList extends Component {
     this.props.getOrderList({ page: e });
   }
 
-  goto = orderId => {
-    this.props.history.push({
-      pathname: "/order/" + orderId
-    });
-    // return <Redirect to={"/order/" + orderId} />;
+  goto = (e, orderId) => {
+    if (e.detail === 2) {
+      this.props.history.push({
+        pathname: "/order/" + orderId
+      });
+    }
   };
 
+  handleButtonPress(content) {
+    this.buttonPressTimer = setTimeout(() => {
+      navigator.clipboard
+        .writeText(content)
+        .then(
+          this.props.enqueueSnackbar(content + " Copied", {
+            variant: "success"
+          })
+        )
+        .catch(err =>
+          this.props.enqueueSnackbar(err, {
+            variant: "error"
+          })
+        );
+    }, 500);
+  }
+
+  handleButtonRelease() {
+    clearTimeout(this.buttonPressTimer);
+  }
+
   searchOnChangeHandler = e => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     e.preventDefault();
     this.setState({ currentQuery: e.target.value });
   };
 
+  sortTable = (e, field) => {
+    this.props.getOrderList({ sort: "-" + field });
+    // if (e.detail === 2) {
+    //   this.props.getOrderList({ sort: field });
+    // } else if (e.detail === 1) {
+    //   this.props.getOrderList({ sort: "-" + field });
+    // }
+  };
+
   search = () => {
     this.props.getOrderList({ query: this.state.currentQuery });
+    this.setState({ currentQuery: "" });
   };
 
   render() {
@@ -55,11 +91,22 @@ class OrderList extends Component {
       this.props.orders.docs.map((order, idx) => {
         return (
           <tr>
-            <td onClick={() => this.goto(order._id)}>{order._id}</td>
-            <td>{order.wpnumber}</td>
-            <td>{order.referencenumber}</td>
+            <td
+              onClick={e => this.goto(e, order._id)}
+              onMouseDown={() => this.handleButtonPress(order._id)}
+              onMouseUp={this.handleButtonRelease}
+            >
+              {order._id}
+            </td>
+            <td
+              onMouseDown={() => this.handleButtonPress(order.wpnumber)}
+              onMouseUp={this.handleButtonRelease}
+            >
+              {order.wpnumber}
+            </td>
+            {/* <td>{order.referencenumber}</td> */}
             <td>{order.status}</td>
-            <td>{order.deadline}</td>
+            <td>{TimeHelper.FormatTimeStamp(order.deadline, "lll")}</td>
             <td>{order.subject}</td>
             {/* <td>{order.topic}</td>
             <td>{order.instruction}</td> */}
@@ -77,49 +124,53 @@ class OrderList extends Component {
       });
 
     return (
-      <div>
-        <h2>WPorderListPage</h2>
-        <input
-          placeholder="search"
-          onChange={e => this.searchOnChangeHandler(e)}
-        />
-        <button onClick={() => this.search()}>Search</button>
-        <table>
-          <thead>
-            <tr>
-              <td>ID</td>
-              <td>WPREFERENCE</td>
-              <td>CORP REFERENCE</td>
-              <td>STATUS</td>
-              <td>DEADLINE</td>
-              <td>SUBJECT</td>
-              <td>PAGE</td>
-              <td>RATE</td>
-              <td>CLIENT_ID</td>
-              <td>CHARGED_AMOUNT</td>
-              <td>APPLIED_COUPON</td>
-              <td>ASSIGNED_SPECIALTY</td>
-            </tr>
-          </thead>
+      <div className="OrderListContainer">
+        {/* <h2>WPorderListPage</h2> */}
+        <div className="OrderListSearchBar">
+          <input
+            placeholder="search"
+            onChange={e => this.searchOnChangeHandler(e)}
+          />
+          <button onClick={() => this.search()}>Search</button>
+        </div>
 
-          <tbody>{orderList}</tbody>
-        </table>
+        <div className="OrderListTableWrapper">
+          <table className="OrderListTable">
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>WP Reference</td>
+                {/* <td>Corp Reference</td> */}
+                <td>Status</td>
+                <td onClick={e => this.sortTable(e, "deadline")}>Deadline</td>
+                <td>Subject</td>
+                <td>Page</td>
+                <td>Rate</td>
+                <td>Client ID</td>
+                <td>Charged Amount</td>
+                <td>Applied Coupon</td>
+                <td>Assigned Speciality</td>
+              </tr>
+            </thead>
+
+            <tbody>{orderList}</tbody>
+          </table>
+        </div>
+
         <div className="orderListControlPanel">
-          {this.props.orders.hasNextPage && (
-            <button
-              onClick={() => this.pageHandler(this.props.orders.nextPage)}
-            >
-              +
-            </button>
-          )}
-          <h3>{this.props.orders.page}</h3>
-          {this.props.orders.hasPrevPage && (
-            <button
-              onClick={() => this.pageHandler(this.props.orders.prevPage)}
-            >
-              -
-            </button>
-          )}
+          <button
+            onClick={() => this.pageHandler(this.props.orders.prevPage)}
+            disabled={!this.props.orders.hasPrevPage}
+          >
+            Prev
+          </button>
+          <p>{this.props.orders.page}</p>
+          <button
+            onClick={() => this.pageHandler(this.props.orders.nextPage)}
+            disabled={!this.props.orders.hasNextPage}
+          >
+            Next
+          </button>
         </div>
       </div>
     );
@@ -142,7 +193,9 @@ const mapStateToProps = state => {
     orders: order.orders
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OrderList);
+export default withSnackbar(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(OrderList)
+);
