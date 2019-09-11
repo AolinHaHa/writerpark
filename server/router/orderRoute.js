@@ -12,12 +12,24 @@ router.get("/orders", (req, res) => {
   console.log("GET orders - query -", req.query.query);
   let query;
   if (req.query.query !== "{}") {
-    query = {
-      $or: [
-        { wpnumber: new RegExp(req.query.query) },
-        { referencenumber: new RegExp(req.query.query) }
-      ]
-    };
+    if (req.query.query.match(/^[0-9a-fA-F]{24}$/)) {
+      // Yes, it's a valid ObjectId, proceed with `findById` call.
+      query = {
+        $or: [
+          { wpnumber: new RegExp(req.query.query) },
+          { referencenumber: new RegExp(req.query.query) },
+          { _id: req.query.query }
+          // { referencenumber: new RegExp(req.query.query) }
+        ]
+      };
+    } else {
+      query = {
+        $or: [
+          { wpnumber: new RegExp(req.query.query) },
+          { referencenumber: new RegExp(req.query.query) }
+        ]
+      };
+    }
   } else {
     query = {};
   }

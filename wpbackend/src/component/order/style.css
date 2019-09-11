@@ -76,3 +76,18 @@ input:focus {
   font-size: large;
   font-weight: 400;
 }
+
+/* OrderDetailCSS */
+.OrderDetailFileManager {
+  display: flex;
+  flex-direction: row;
+  height: 200px;
+  border: black 1px solid;
+  width: 300px;
+}
+.OrderDetailFileManagerLeft {
+  width: 50%;
+}
+.OrderDetailFileManagerRight {
+  width: 50%;
+}

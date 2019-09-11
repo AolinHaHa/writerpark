@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema(
   {
+    __id: String,
     wpnumber: String, // order_id
     referencenumber: String, // inner id
     status: Number, // 0 | 1 | 2 | 3 | 4 | 5 | ==> unpaid | assign writer | in progress | in progress(RE) | finished | confirmed |
@@ -15,8 +16,8 @@ const OrderSchema = new Schema(
     page: Number,
     ppt: Number,
     rate: Number,
-    supportingfile: String,
-    productionfile: String,
+    supportingfiles: Object,
+    productionfiles: Object,
     clientid: String,
     email: String,
     amountcharged: Number,

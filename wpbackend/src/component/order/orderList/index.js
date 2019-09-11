@@ -104,7 +104,7 @@ class OrderList extends Component {
             >
               {order.wpnumber}
             </td>
-            {/* <td>{order.referencenumber}</td> */}
+            <td>{order.referencenumber}</td>
             <td>{order.status}</td>
             <td>{TimeHelper.FormatTimeStamp(order.deadline, "lll")}</td>
             <td>{order.subject}</td>
@@ -140,7 +140,7 @@ class OrderList extends Component {
               <tr>
                 <td>ID</td>
                 <td>WP Reference</td>
-                {/* <td>Corp Reference</td> */}
+                <td>Corp Reference</td>
                 <td>Status</td>
                 <td onClick={e => this.sortTable(e, "deadline")}>Deadline</td>
                 <td>Subject</td>
