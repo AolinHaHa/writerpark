@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { withSnackbar } from "notistack";
 import TimeHelper from "../../../common/helper/timeHelper";
 import "../style.css";
-// import history from "../../../history";
-// import { Redirect } from "react-router-dom";
-// import ReactTable from "react-table";
 
 class OrderList extends Component {
   constructor(props) {

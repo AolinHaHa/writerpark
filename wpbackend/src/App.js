@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import Home from "./component/home";
+import Login from "./component/login";
+import Register from "./component/register";
 import OrderList from "./component/order/orderList";
 import OrderDetail from "./component/order/orderDetail";
 import Header from "./common/header";
@@ -30,6 +32,8 @@ class App extends Component {
                   <Route exact path="/" component={Home} />
                   <Route exact path="/order" component={OrderList} />
                   <Route exact path="/order/:id" component={OrderDetail} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/register" component={Register} />
                 </Switch>
               </div>
 

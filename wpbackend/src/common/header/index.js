@@ -13,6 +13,12 @@ class Header extends Component {
           <li>
             <Link to={{ pathname: "/order" }}>ORDERS</Link>
           </li>
+          <li>
+            <Link to={{ pathname: "/login" }}>Login</Link>
+          </li>
+          <li>
+            <Link to={{ pathname: "/register" }}>Register</Link>
+          </li>
         </ul>
       </div>
     );

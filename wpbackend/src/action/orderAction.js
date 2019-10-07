@@ -11,20 +11,20 @@ import {
 
 const requestStart = source => {
   return {
-    type: ORDER_LIST_FETCH_START,
+    type: source,
     source
   };
 };
 const requestFail = (error, source) => {
   return {
-    type: ORDER_LIST_FETCH_FAIL,
+    type: source,
     error,
     source
   };
 };
 const requestSuccess = (res, source) => {
   return {
-    type: ORDER_LIST_FETCH_SUCCESS,
+    type: source,
     data: res.data,
     source
   };
@@ -80,7 +80,47 @@ export const getOrderDetail = e => {
   };
 };
 
+export const createOrderNewLog = requestBody => {
+  console.log("createOrderNewLog - requestBody -", requestBody);
+  const requestID = requestBody._id;
+  return dispatch => {
+    axios
+      .put(urlHeader + "api/orders/log/" + requestID, requestBody)
+      .then(res => {
+        console.log("createOrderNewLog - success - res", res, requestID);
+        // getOrderDetail(requestID);
+        // dispatch(requestSuccess(res, ORDER_DETAIL_FETCH_SUCCESS));
+      })
+      .catch(err => {
+        console.log("err", err);
+        // dispatch(requestFail(err, ORDER_DETAIL_FETCH_FAIL));
+      });
+  };
+};
+
+export const createOrderNewMsg = requestBody => {
+  console.log("createOrderNewMsg - requestBody -", requestBody);
+  const requestID = requestBody.order_id;
+  return dispatch => {
+    axios
+      .put(urlHeader + "api/orders/msg/" + requestID, requestBody)
+      .then(res => {
+        console.log("success", res);
+        getOrderDetail(requestID);
+        // dispatch(requestSuccess(res, ORDER_DETAIL_FETCH_SUCCESS));
+      })
+      .catch(err => {
+        console.log("err", err);
+        // dispatch(requestFail(err, ORDER_DETAIL_FETCH_FAIL));
+      });
+  };
+};
+
 //TODO: UPDATE ORDER
 export const updateOrder = order => {
-  return;
+  console.log("updateOrder - order -", order);
+  // return dispatch => {
+  //   dispatch(ORDER_UPDATE_START);
+  //   axios.put(urlHeader + "api/orders/" )
+  // }
 };

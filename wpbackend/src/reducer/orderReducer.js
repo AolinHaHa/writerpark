@@ -11,7 +11,7 @@ const initialState = {
   isFetching: false,
   err: null,
   orders: [],
-  viewOrders: []
+  currentOrder: {}
 };
 
 const order = (state = initialState, action) => {
@@ -50,7 +50,7 @@ const order = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        viewOrders: [state.viewOrders, ...action.data]
+        currentOrder: action.data
       };
 
     default:

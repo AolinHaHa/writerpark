@@ -23,7 +23,9 @@ const OrderSchema = new Schema(
     amountcharged: Number,
     appliedcoupon: String,
     assignedspecialty: String,
-    initialtime: Date
+    initialtime: Date,
+    log: Object,
+    message: Object
   },
   { collection: "order" }
 );

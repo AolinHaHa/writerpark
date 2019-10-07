@@ -2,12 +2,40 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../schema/userSchema");
+const CryptoJS = require("crypto-js");
 
 router.get("/", (req, res) => {
   res.json({ message: "hooray! welcome to our api!" });
 });
 
+router.post("/login", (req, res) => {
+  console.log("api - login - req.body.account - ", req.body.account);
+
+  const decryptAccount = CryptoJS.AES.decrypt(
+    req.body.account,
+    "Secret Passphrase"
+  ).toString(CryptoJS.enc.Utf8);
+
+  const decryptPassword = CryptoJS.AES.decrypt(
+    req.body.password,
+    "Secret Passphrase"
+  ).toString(CryptoJS.enc.Utf8);
+
+  User.find(
+    //email and password
+    { email: decryptAccount, password: decryptPassword },
+    (err, user) => {
+      if (err) {
+        res.status(404).json(err);
+      }
+      res.status(200).json(user);
+    }
+  );
+  // res.json({ message: req.body });
+});
+
 router.get("/users", (req, res) => {
+  console.log("get users - req -");
   User.find((err, users) => {
     if (err) {
       res.status(500).send(err);

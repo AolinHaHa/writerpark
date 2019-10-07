@@ -84,10 +84,33 @@ input:focus {
   height: 200px;
   border: black 1px solid;
   width: 300px;
+  justify-content: space-between;
+  padding: 10px;
 }
 .OrderDetailFileManagerLeft {
   width: 50%;
 }
 .OrderDetailFileManagerRight {
   width: 50%;
+}
+
+.OrderDetail {
+  margin: auto;
+  display: block;
+  width: 50%;
+  border: 1px solid lightgray;
+  padding: 20px;
+  margin-bottom: 47px;
+}
+
+.orderLogs {
+}
+
+.orderLogs > div {
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+}
+.orderLogs > div > p {
+  margin: 0px;
 }

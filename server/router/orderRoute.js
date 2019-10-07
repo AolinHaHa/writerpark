@@ -108,11 +108,66 @@ router.put("/orders/:order_id", (req, res) => {
     order.amountcharged = req.body.amountcharged;
     order.appliedcoupon = req.body.appliedcoupon;
     order.assignedspecialty = req.body.assignedspecialty;
+    order.log = req.body.log;
+    order.message = req.body.orderMessage;
     order.save(err => {
       if (err) {
         res.send(err);
       }
       res.json({ message: "order updated!" });
+    });
+  });
+});
+
+//modify log by order id
+router.put("/orders/log/:order_id", (req, res) => {
+  console.log("update order - body - ", req.body);
+  Order.findById(req.body.order_id, (err, order) => {
+    if (err) {
+      res.send(err);
+    }
+    order.log = req.body.orderLog;
+    order.save(err => {
+      if (err) {
+        res.send(err);
+      }
+      res.json({ message: "order log updated!" });
+    });
+  });
+});
+
+//modify message by order id
+router.put("/orders/msg/:order_id", (req, res) => {
+  console.log("update order msg - body - ", req.body);
+  // res.json({ received: req.body });
+  Order.findById(req.body.order_id, (err, order) => {
+    if (err) {
+      res.send(err);
+    }
+    order.message = req.body.message;
+    order.save(err => {
+      if (err) {
+        res.send(err);
+      }
+      res.json({ message: "order msg updated!" });
+    });
+  });
+});
+
+//check files by order id
+router.put("/orders/productionfile/:order_id", (req, res) => {
+  console.log("update order productionfile - body - ", req.body);
+  // res.json({ received: req.body });
+  Order.findById(req.body.order_id, (err, order) => {
+    if (err) {
+      res.send(err);
+    }
+    order.productionfiles = req.body.productionfiles;
+    order.save(err => {
+      if (err) {
+        res.send(err);
+      }
+      res.json({ message: "order productionfiles updated!" });
     });
   });
 });
