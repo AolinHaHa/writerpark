@@ -109,7 +109,7 @@ router.put("/orders/:order_id", (req, res) => {
     order.appliedcoupon = req.body.appliedcoupon;
     order.assignedspecialty = req.body.assignedspecialty;
     order.log = req.body.log;
-    order.message = req.body.orderMessage;
+    order.message = req.body.message;
     order.save(err => {
       if (err) {
         res.send(err);

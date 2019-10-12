@@ -5,6 +5,7 @@ const app = express();
 const port = 7017;
 const userRoute = require("./router/userRoute");
 const orderRoute = require("./router/orderRoute");
+const fileRoute = require("./router/fileRoute");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -23,11 +24,14 @@ app.use(
     extended: true
   })
 );
+
 app.use(bodyParser.json());
 //user management
 app.use("/api", userRoute);
 //order management
 app.use("/api", orderRoute);
+//file management
+app.use("/api", fileRoute);
 
 // // app.use(cors({ origin: originUrl, credentials: false }));
 // headers.append("Access-Control-Allow-Origin", originUrl);

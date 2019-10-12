@@ -34,7 +34,7 @@ class OrderLog extends Component {
     holder.push(newLog);
     requestBody["order_id"] = currentOrderId;
     requestBody["orderLog"] = holder;
-    // console.log("requestBody - onNewMsgClick - ", requestBody);
+    console.log("requestBody - onNewMsgClick - ", requestBody);
     this.props.createOrderNewLog(requestBody);
     this.props.getOrderDetail(currentOrderId);
   };

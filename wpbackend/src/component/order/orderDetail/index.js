@@ -83,7 +83,7 @@ class OrderDetail extends Component {
           currentOrderMsg={this.props.currentOrder.message}
           currentOrderId={this.props.currentOrder._id}
         />
-        <FileManager data={this.props} />
+        <FileManager currentOrderId={this.props.currentOrder._id} />
         <button onClick={() => this.updateOrderHandler()}>Update Order</button>
       </div>
     );

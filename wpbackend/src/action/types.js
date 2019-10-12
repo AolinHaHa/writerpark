@@ -19,3 +19,8 @@ export const ORDER_CREATE_NEWLOG_SUCCESS = "ORDER_CREATE_NEWLOG_SUCCESS";
 export const AUTH_START = "AUTH_START";
 export const AUTH_FAIL = "AUTH_FAIL";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
+
+//file reducer
+export const FILE_FETCH_START = "FILE_FETCH_START";
+export const FILE_FETCH_FAIL = "FILE_FETCH_FAIL";
+export const FILE_FETCH_SUCCESS = "FILE_FETCH_SUCCESS";
