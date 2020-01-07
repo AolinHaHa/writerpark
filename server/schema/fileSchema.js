@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const OrderSchema = new Schema(
+const FileSchema = new Schema(
   {
     order_id: String,
     fileName: String,
@@ -14,4 +14,4 @@ const OrderSchema = new Schema(
   { collection: "orderFile" }
 );
 
-module.exports = mongoose.model("orderFile", OrderSchema);
+module.exports = mongoose.model("orderFile", FileSchema);
